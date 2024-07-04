@@ -1,0 +1,31 @@
+.showtime {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.showtime input {
+    margin-right: 10px;
+}
+
+.showtime button {
+    margin-left: 10px;
+}
+
+.film-schedule {
+    margin-top: 20px;
+}
+
+.film-schedule table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.film-schedule th, .film-schedule td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.film-schedule th {
+    background-color: #f2f2f2;
+}
