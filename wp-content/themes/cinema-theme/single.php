@@ -13,6 +13,45 @@
                 <?php endif; ?>
 
                 <div class="text-gray-700 mb-4"><?php the_content(); ?></div>
+
+                <?php
+                $showtimes = get_post_meta(get_the_ID(), '_film_showtimes', true);
+                if (!empty($showtimes)) :
+                    usort($showtimes, function ($a, $b) {
+                        $dayComparison = strcmp($a['day'], $b['day']);
+                        if ($dayComparison !== 0) {
+                            return $dayComparison;
+                        }
+                        return strcmp($a['time'], $b['time']);
+                    });
+
+                    $grouped_showtimes = [];
+                    foreach ($showtimes as $showtime) {
+                        $grouped_showtimes[$showtime['day']][] = $showtime['time'];
+                    }
+                ?>
+                    <div class="mt-6">
+                        <h3 class="text-xl font-bold mb-2">Horaires de diffusion</h3>
+                        <table class="w-full border-collapse border border-gray-200">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-200 px-4 py-2">Jour</th>
+                                    <th class="border border-gray-200 px-4 py-2">Horaires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($grouped_showtimes as $day => $times) : ?>
+                                    <tr>
+                                        <td class="border border-gray-200 px-4 py-2"><?php echo esc_html($day); ?></td>
+                                        <td class="border border-gray-200 px-4 py-2"><?php echo esc_html(implode(' - ', $times)); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p>Aucun horaire de diffusion disponible pour ce film.</p>
+                <?php endif; ?>
             </div>
         </article>
     <?php endwhile; endif; ?>
